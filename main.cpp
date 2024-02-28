@@ -378,25 +378,23 @@ bool moveIsValid(const Piece &p1, const Vector2 &prev) noexcept
     {
     case Type::Pawn:
 
-        //if(!isNotJumpingOver(dx, dy, px, py))
-        //    return false;
-        // if(p1.color && py == 6 && py - 2 == dy && dx == px && board[dx][dy] == 2)
-        //     return true;
-        // if(!p1.color && py == 1 && py + 2 == dy && dx == px && board[dx][dy] == 2)
-        //     return true;
+     
+        if(p1.color && py0 == 6 && py0 - 2 == dy0 && dx0 == px0 && board[dx0][dy0] == 2)
+            return true;
+        if(!p1.color && py0 == 1 && py0 + 2 == dy0 && dx0 == px0 && board[dx0][dy0] == 2)
+            return true;
 
-        // if(p1.color && py - 1 == dy && dx == px && board[dx][dy] == 2)
-        //     return true;
-        // if(!p1.color && py + 1 == dy && dx == px && board[dx][dy] == 2)
-        //     return true;
+        if(p1.color && py0 - 1 == dy0 && dx0 == px0 && board[dx0][dy0] == 2)
+            return true;
+        if(!p1.color && py0 + 1 == dy0 && dx0 == px0 && board[dx0][dy0] == 2)
+            return true;
         
-        // if(p1.color && py - 1 == dy && (dx == px + 1 || dx == px - 1) && board[dx][dy] == 0)
-        //     return true;
-        // if(!p1.color && py + 1 == dy && (dx == px + 1 || dx == px - 1) && board[dx][dy] == 1)
-        //     return true;
+        if(p1.color && py0 - 1 == dy0 && (dx0 == px0 + 1 || dx0 == px0 - 1) && board[dx0][dy0] == 0)
+            return true;
+        if(!p1.color && py0 + 1 == dy0 && (dx0 == px0 + 1 || dx0 == px0 - 1) && board[dx0][dy0] == 1)
+            return true;
         
-        // return false;   
-        return true;
+        return false;   
     case Type::King:
         return nTimesAwayLiniar(dx, dy, px, py, 1) || nTimesAwayDiagonal(dx, dy, px, py, 1);
     case Type::Bishop:
