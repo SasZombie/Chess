@@ -163,7 +163,6 @@ void correctPosition(Piece& p1) noexcept
 {   
     auto [dx, dy] = getCoord(p1);
 
-    // board[dx][dy] = p1.color;
     p1.Position.x = dx * cellSize + cellSize/2;
     p1.Position.y = dy * cellSize + cellSize/2;
 
@@ -327,35 +326,30 @@ bool isNotJumpingOver(size_t dx, size_t dy, size_t px, size_t py) noexcept
     }
     else
     {
-        size_t i = px + 1, j = py + 1;
+        int stepX, stepY;
 
-        std::cout << i << ' ' << j << '\n';
-        while (i < dx)
+        if(px - dx > px + dx)
+            stepX = 1;
+        else
+            stepX = -1;
+
+        if(py - dy > py + dy)
+            stepY = 1;
+        else
+            stepY = -1;
+
+
+        size_t i = px + stepX, j = py + stepY;
+        while (i != dx)
         {
             if(board[i][j] != 2)
                 return false;
-            
-            ++i;
-            ++j;
+
+            i = i + stepX;
+            j = j + stepY;
         }
         
-        // std::cout << dx << ' ' << dy << ' ' << py << '\n';
-        // for(size_t i = dx + 1; i < px; ++i)
-        // {
-        //     for(size_t j = dy + 1; j < py; ++j)
-        //     {
-        //         std::cout << "Problema e la mine C: \n";
-        //         std::cout << "i = " << i << "j = " << j << '\n';
-        //         if(board[i][j] != 2)
-        //         {
-        //             //std::cout << board[i][j] << ' ' << i << ' ' << j << '\n';
-        //             return false;
-        //         }
-        //     }
-        // }
     }
-    // std::cout << "dx = " << dx << " dy = " << dy << "px = " << px << " py = " << py << '\n'; 
-
     return true;
 }
 
@@ -378,23 +372,23 @@ bool moveIsValid(const Piece &p1, const Vector2 &prev) noexcept
     {
     case Type::Pawn:
 
-     
-        if(p1.color && py0 == 6 && py0 - 2 == dy0 && dx0 == px0 && board[dx0][dy0] == 2)
+        if(p1.color && py == 6 && py - 2 == dy && dx == px && board[dx][dy] == 2)
             return true;
-        if(!p1.color && py0 == 1 && py0 + 2 == dy0 && dx0 == px0 && board[dx0][dy0] == 2)
+        if(!p1.color && py == 1 && py + 2 == dy && dx == px && board[dx][dy] == 2)
             return true;
 
-        if(p1.color && py0 - 1 == dy0 && dx0 == px0 && board[dx0][dy0] == 2)
+        if(p1.color && py - 1 == dy && dx == px && board[dx][dy] == 2)
             return true;
-        if(!p1.color && py0 + 1 == dy0 && dx0 == px0 && board[dx0][dy0] == 2)
+        if(!p1.color && py + 1 == dy && dx == px && board[dx][dy] == 2)
             return true;
         
-        if(p1.color && py0 - 1 == dy0 && (dx0 == px0 + 1 || dx0 == px0 - 1) && board[dx0][dy0] == 0)
+        if(p1.color && py - 1 == dy && (dx == px + 1 || dx == px - 1) && board[dx][dy] == 0)
             return true;
-        if(!p1.color && py0 + 1 == dy0 && (dx0 == px0 + 1 || dx0 == px0 - 1) && board[dx0][dy0] == 1)
+        if(!p1.color && py + 1 == dy && (dx == px + 1 || dx == px - 1) && board[dx][dy] == 1)
             return true;
         
         return false;   
+        return true;
     case Type::King:
         return nTimesAwayLiniar(dx, dy, px, py, 1) || nTimesAwayDiagonal(dx, dy, px, py, 1);
     case Type::Bishop:
